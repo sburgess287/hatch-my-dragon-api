@@ -1,12 +1,22 @@
 const express = require('express');
- const app = express();
+const cors = require('cors');
+const app = express();
 
- const PORT = process.env.PORT || 3000;
+const {CLIENT_ORIGIN} = require('./config');
 
- app.get('/api/*', (req, res) => {
-   res.json({ok: true});
- });
+const PORT = process.env.PORT || 3000;
 
- app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+// use cors for specific origin rather than all cross origin requests
+app.use(
+  cors({
+    origin: CLIENT_ORIGIN
+  })
+)
 
- module.exports = {app};
+app.get('/api/*', (req, res) => {
+  res.json({ok: true});
+});
+
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+module.exports = {app};
