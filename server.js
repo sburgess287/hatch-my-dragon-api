@@ -1,10 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const mongoose = require('mongoose');
 
-const {CLIENT_ORIGIN} = require('./config');
+mongoose.Promise = global.Promise;
 
-const PORT = process.env.PORT || 3000;
+const {CLIENT_ORIGIN, PORT} = require('./config');
+
+
 
 // use cors for specific origin rather than all cross origin requests
 app.use(
