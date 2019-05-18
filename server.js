@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const {CLIENT_ORIGIN, PORT} = require('./config');
+const {CLIENT_ORIGIN, PORT, DATABASE_URL} = require('./config');
 
 
 
