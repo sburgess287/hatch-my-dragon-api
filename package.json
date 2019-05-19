@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha --exit"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "body-parser": "^1.19.0",
     "chai-http": "^4.3.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
     "express": "^4.17.0",
     "mongoose": "^5.5.9",
     "morgan": "^1.9.1"
