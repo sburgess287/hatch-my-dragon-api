@@ -23,7 +23,6 @@ app.get('/api/*', (req, res) => {
   res.json({ok: true});
 });
 
-// app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found'});
