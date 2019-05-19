@@ -19,7 +19,6 @@ function tearDownDb() {
 describe('Example test to show connection to test DB', function() {
 
   before(function() {
-    console.log(TEST_DATABASE_URL);
     return runServer(TEST_DATABASE_URL)
   })
 
