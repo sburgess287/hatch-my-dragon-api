@@ -6,10 +6,12 @@ const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 
+const { router: usersRouter } = require('./users');
+const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+
 mongoose.Promise = global.Promise;
 
 const {CLIENT_ORIGIN, PORT, DATABASE_URL} = require('./config');
-
 
 
 // use cors for specific origin rather than all cross origin requests
@@ -19,10 +21,13 @@ app.use(
   })
 )
 
+// Test endpoint
 app.get('/api/*', (req, res) => {
   res.json({ok: true});
 });
 
+app.use('/api/users', usersRouter);
+app.use('/api/auth/', authRouter);
 
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found'});
