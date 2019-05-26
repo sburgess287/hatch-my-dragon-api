@@ -2,9 +2,11 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const jwt = require('jsonwebtoken');
 
 const {app, runServer, closeServer} = require('../server');
-const { TEST_DATABASE_URL } = require('../config');
+const { User } = require('../users');
+const { JWT_SECRET, TEST_DATABASE_URL } = require('../config');
 
 const expect = chai.expect;
 
@@ -22,7 +24,12 @@ describe('Example test to show connection to test DB', function() {
     return closeServer();
   })
 
-  it('page exists', function() {
+  afterEach(function () {
+    return User.remove({})
+  })
+
+
+  it('page exists and returns 200', function() {
     return chai 
       .request(app)
       .get('/api/')

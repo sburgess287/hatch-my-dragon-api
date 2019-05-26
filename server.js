@@ -5,6 +5,7 @@ const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const passport = require('passport');
 
 const { router: usersRouter } = require('./users');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
@@ -20,17 +21,24 @@ app.use(
   })
 )
 
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+app.use('/api/users/', usersRouter);
+app.use('/api/auth/', authRouter);
+
+// Passed in to protected endpoint
+const jwtAuth = passport.authenticate('jwt', { session: false });
+
 // Test endpoint
 app.get('/api/*', (req, res) => {
   res.json({ok: true});
 });
 
-app.use('/api/users', usersRouter);
-app.use('/api/auth/', authRouter);
-
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found'});
 });
+
 
 // Referenced by both runServer and closeServer.  closeServer
 // assumes runServer has run and set `server` to a server object
