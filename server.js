@@ -13,7 +13,6 @@ mongoose.Promise = global.Promise;
 
 const {CLIENT_ORIGIN, PORT, DATABASE_URL} = require('./config');
 
-
 // use cors for specific origin rather than all cross origin requests
 app.use(
   cors({
