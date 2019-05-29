@@ -58,7 +58,7 @@ router.post('/', jsonParser, (req, res) => {
       min: 1
     },
     password: {
-      min: 10,
+      min: 6, // todo: change this back to 10?
       max: 72
     }
   }
