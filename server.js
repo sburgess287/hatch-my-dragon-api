@@ -12,7 +12,8 @@ const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 
 mongoose.Promise = global.Promise;
 
-const {CLIENT_ORIGIN, PORT, DATABASE_URL} = require('./config');
+const {CLIENT_ORIGIN, PORT, DATABASE_URL} = require('./config'); 
+const { Goal } = require('./goals/models');
 
 // use cors for specific origin rather than all cross origin requests
 app.use(
@@ -34,6 +35,21 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 app.get('/api/*', (req, res) => {
   res.json({ok: true});
 });
+
+// GET endpoint for all goals by that user
+app.get("/goals", jwtAuth, (req, res) => {
+  Goal
+    .find()
+    .where("user_id", req.user.id)
+    .then(goals => {
+      res.json(goals.map(goal => goal.serialize()))
+    })
+    .catch(err => {
+      console.err(err);
+      res.status(500).json({error: 'something went wrong'});
+    })
+})
+
 
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found'});
