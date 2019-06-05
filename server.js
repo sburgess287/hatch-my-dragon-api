@@ -50,6 +50,43 @@ app.get("/goals", jwtAuth, (req, res) => {
     })
 })
 
+// GET endpoint for retrieving Goal by ID
+app.get("/goals/:id", jwtAuth, (req, res) => {
+  Goal 
+    .findById(req.params.id)
+    .then(goal => res.json(goal.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: '500 server error'});
+    })
+  
+})
+
+// POST endpoint for goals
+app.post('/goal', jwtAuth, (req, res) => {
+  const requiredFields = ["goal", "count"] // should I add count?
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing ${field} in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
+  Goal  
+    .create({
+      goal: req.body.goal,
+      count: req.body.count,
+      user_id: req.user.id, // get from Bearer token
+    })
+    .then(goal => res.status(201).json(goal.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: `Internal Server Error`});
+    })
+})
+
 
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found'});
