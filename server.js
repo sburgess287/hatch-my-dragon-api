@@ -46,38 +46,39 @@ app.get("/api/goals", jwtAuth, (req, res) => {
     })
     .catch(err => {
       console.err(err);
-      res.status(500).json({error: 'something went wrong'});
+      res.status(500).json({error: 'Internal server error'});
     })
 })
 
 // GET endpoint for retrieving Goal by ID
-app.get("/goals/:id", jwtAuth, (req, res) => {
+app.get("/api/goals/:id", jwtAuth, (req, res) => {
   Goal 
     .findById(req.params.id)
     .then(goal => res.json(goal.serialize()))
     .catch(err => {
       console.error(err);
-      res.status(500).json({ error: '500 server error'});
+      res.status(500).json({ error: 'Internal server error'});
     })
   
 })
 
 // POST endpoint for goals
-app.post('/goal', jwtAuth, (req, res) => {
-  const requiredFields = ["goal", "count"] // should I add count?
-  for (let i = 0; i < requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing ${field} in request body`;
-      console.error(message);
-      return res.status(400).send(message);
-    }
-  }
+app.post('/api/goal', jwtAuth, (req, res) => {
+  const requiredFields = ["goal"] // should I add count?
+  // for (let i = 0; i < requiredFields.length; i++) {
+  //   const field = requiredFields[i];
+  //   if (!(field in req.body)) {
+  //     const message = `Missing ${field} in request body`;
+  //     console.error(message);
+  //     return res.status(400).send(message);
+  //   }
+  // }
+  
 
   Goal  
     .create({
       goal: req.body.goal,
-      count: req.body.count,
+      count: req.body.count, // should I set this? default val 0
       user_id: req.user.id, // get from Bearer token
     })
     .then(goal => res.status(201).json(goal.serialize()))
