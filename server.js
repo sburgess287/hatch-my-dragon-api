@@ -32,12 +32,12 @@ app.use('/api/auth/', authRouter);
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // Test endpoint
-app.get('/api/*', (req, res) => {
+app.get('/', (req, res) => {
   res.json({ok: true});
 });
 
 // GET endpoint for all goals by that user
-app.get("/goals", jwtAuth, (req, res) => {
+app.get("/api/goals", jwtAuth, (req, res) => {
   Goal
     .find()
     .where("user_id", req.user.id)

@@ -32,7 +32,7 @@ describe('Example test to show connection to test DB', function() {
   it('page exists and returns 200', function() {
     return chai 
       .request(app)
-      .get('/api/')
+      .get('/')
       .then(function(res) {
         expect(res).to.have.status(200);
         
@@ -43,22 +43,22 @@ describe('Example test to show connection to test DB', function() {
 
 describe('API', function() {
 
-  it('should 200 on GET requests', function() {
+  it('should 404 on GET requests without authentication on invalid pages', function() {
     return chai.request(app)
       .get('/api/fooooo')
       .then(function(res) {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(404);
         expect(res).to.be.json;
         
       });
   });
 
-  it('page exists', function() {
+  it('should 401 on GET requests to valid pages without authentication', function() {
     return chai 
       .request(app)
-      .get('/api/')
+      .get('/api/goals')
       .then(function(res) {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(401);
         
       })
     
