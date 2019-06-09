@@ -87,7 +87,7 @@ app.post('/api/goal', jwtAuth, (req, res) => {
     .then(goal => res.status(201).json(goal.serialize()))
     .catch(err => {
       console.error(err);
-      res.status(500).json({ error: `Internal Server Error 1234`});
+      res.status(500).json({ error: `Internal Server Error`});
     })
 })
 
