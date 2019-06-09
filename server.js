@@ -68,14 +68,14 @@ app.get("/api/goals/:id", jwtAuth, (req, res) => {
 app.post('/api/goal', jwtAuth, (req, res) => {
   const requiredFields = ["goal", "count"] // should I add count?
   
-  // for (let i = 0; i < requiredFields.length; i++) {
-  //   const field = requiredFields[i];
-  //   if (!(field in req.body)) {
-  //     const message = `Missing ${field} in request body`;
-  //     console.error(message);
-  //     return res.status(400).send(message);
-  //   }
-  // }
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing ${field} in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
   
   
   Goal  
