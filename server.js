@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+app.use(express.json());
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
@@ -63,8 +64,10 @@ app.get("/api/goals/:id", jwtAuth, (req, res) => {
 })
 
 // POST endpoint for goals
+
 app.post('/api/goal', jwtAuth, (req, res) => {
-  const requiredFields = ["goal"] // should I add count?
+  const requiredFields = ["goal", "count"] // should I add count?
+  
   // for (let i = 0; i < requiredFields.length; i++) {
   //   const field = requiredFields[i];
   //   if (!(field in req.body)) {
@@ -74,7 +77,7 @@ app.post('/api/goal', jwtAuth, (req, res) => {
   //   }
   // }
   
-
+  
   Goal  
     .create({
       goal: req.body.goal,
@@ -84,7 +87,7 @@ app.post('/api/goal', jwtAuth, (req, res) => {
     .then(goal => res.status(201).json(goal.serialize()))
     .catch(err => {
       console.error(err);
-      res.status(500).json({ error: `Internal Server Error`});
+      res.status(500).json({ error: `Internal Server Error 1234`});
     })
 })
 
