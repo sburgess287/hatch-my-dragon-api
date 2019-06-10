@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
   res.json({ok: true});
 });
 
-// GET endpoint for all goals by that user
+// GET endpoint to return list of all goals by logged in user
 app.get("/api/goals", jwtAuth, (req, res) => {
   Goal
     .find()
@@ -51,8 +51,8 @@ app.get("/api/goals", jwtAuth, (req, res) => {
     })
 })
 
-// GET endpoint for retrieving Goal by ID
-app.get("/api/goals/:id", jwtAuth, (req, res) => {
+// GET endpoint for retrieving Goal by ID for logged in user
+app.get("/api/goal/:id", jwtAuth, (req, res) => {
   Goal 
     .findById(req.params.id)
     .then(goal => res.json(goal.serialize()))
@@ -63,7 +63,7 @@ app.get("/api/goals/:id", jwtAuth, (req, res) => {
   
 })
 
-// POST endpoint for goals
+// POST endpoint to Create New Goal for logged in user
 
 app.post('/api/goal', jwtAuth, (req, res) => {
   const requiredFields = ["goal", "count"] // should I add count?
