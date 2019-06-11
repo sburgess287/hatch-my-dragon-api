@@ -56,6 +56,34 @@ describe('Auth endpoints', function () {
           expect(res).to.have.status(401);
         })
     })
+
+    it('should reject requests with incorrect password', function() {
+      return chai
+        .request(app)
+        .post('/api/auth/login')
+        .send({username, password: 'wrongPassword'})
+        .then((res) =>{
+          expect(res).to.have.status(401);
+        })
+    })
+
+    it('should return a valid auth token', function() {
+      return chai 
+        .request(app)
+        .post('/api/auth/login')
+        .send({username, password})
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an('object');
+          const token = res.body.authToken;
+          expect(token).to.be.a('string');
+
+          const payload = jwt.verify(token, JWT_SECRET, {
+            algorithm: ['HS256']
+          });
+          expect(payload.user.username).to.equal(username)
+        })
+    })
   })
 
   
