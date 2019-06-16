@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 });
 
 // GET endpoint to return list of all goals by logged in user
-app.get("/api/goals", jwtAuth, (req, res) => {
+app.get('/api/goals', jwtAuth, (req, res) => {
   Goal
     .find()
     .where("user_id", req.user.id)
@@ -52,7 +52,7 @@ app.get("/api/goals", jwtAuth, (req, res) => {
 })
 
 // GET endpoint for retrieving Goal by ID for logged in user
-app.get("/api/goal/:id", jwtAuth, (req, res) => {
+app.get('/api/goal/:id', jwtAuth, (req, res) => {
   Goal 
     .findById(req.params.id)
     .then(goal => res.json(goal.serialize()))
@@ -64,9 +64,8 @@ app.get("/api/goal/:id", jwtAuth, (req, res) => {
 })
 
 // POST endpoint to Create New Goal for logged in user
-
 app.post('/api/goal', jwtAuth, (req, res) => {
-  const requiredFields = ["goal", "count"] // should I add count?
+  const requiredFields = ["goal", "count"]
   
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -88,6 +87,39 @@ app.post('/api/goal', jwtAuth, (req, res) => {
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: `Internal Server Error`});
+    })
+})
+
+// PUT endpoint to update goal information
+app.put('/api/goal/:id', jwtAuth, (req, res) => {
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    res.status(400).json({
+      error: `Request path id and request body id values must match`
+    })
+  }
+  const updated = {};
+  const updateableFields = ['count'];
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      updated[field] = req.body[field]
+    }
+  })
+  Goal  
+    .findByIdAndUpdate(req.params.id, { $set: updated}, {new: true})
+    .then(updatedGoal => res.status(204).end())
+    .catch(err => res.status(500).json({ message: `Internal server error`}))
+})
+
+// DELETE endpoint for deleting a goal
+app.delete('/api/goal/:id', jwtAuth, (req, res) => {
+  Goal
+    .findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.status(204).json({ message: 'success'});
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: `Internal server error`});
     })
 })
 
