@@ -76,7 +76,6 @@ app.post('/api/goal', jwtAuth, (req, res) => {
     }
   }
   
-  
   Goal  
     .create({
       goal: req.body.goal,

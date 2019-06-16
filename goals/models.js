@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise;
 const goalSchema = mongoose.Schema({
   goal: { type: String, required: true}, 
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  count: { type: Number } // will I need this?
+  count: { type: Number }
 })
 
 // goal instance method to create goal object
