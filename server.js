@@ -91,11 +91,12 @@ app.post('/api/goal', jwtAuth, (req, res) => {
 
 // PUT endpoint to update goal information
 app.put('/api/goal/:id', jwtAuth, (req, res) => {
-  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    res.status(400).json({
-      error: `Request path id and request body id values must match`
-    })
-  }
+
+  // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+  //   res.status(400).json({
+  //     error: `Request path id and request body id values must match`
+  //   })
+  // }
   const updated = {};
   const updateableFields = ['count'];
   updateableFields.forEach(field => {
