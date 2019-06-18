@@ -13,7 +13,7 @@ const goalSchema = mongoose.Schema({
 // goal instance method to create goal object
 goalSchema.methods.serialize = function() {
   return {
-    id: this.id,
+    id: this._id,
     goal: this.goal,
     count: this.count,
     user_id: this.user_id

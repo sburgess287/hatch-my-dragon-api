@@ -10,7 +10,7 @@ const passport = require('passport');
 
 const { router: usersRouter } = require('./users');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
-
+app.use(morgan('common'));
 mongoose.Promise = global.Promise;
 
 const {CLIENT_ORIGIN, PORT, DATABASE_URL} = require('./config'); 
@@ -106,7 +106,7 @@ app.put('/api/goal/:id', jwtAuth, (req, res) => {
   })
   Goal  
     .findByIdAndUpdate(req.params.id, { $set: updated}, {new: true})
-    .then(updatedGoal => res.status(204).end())
+    .then(updatedGoal => res.status(200).json(updatedGoal.serialize()))
     .catch(err => res.status(500).json({ message: `Internal server error`}))
 })
 
